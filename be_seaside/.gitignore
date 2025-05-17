@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Environment files
+.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Dependency lock files (optional, tergantung kebutuhan tim)
+# package-lock.json
+# yarn.lock
+
+# Sequelize CLI migration & seed logs (jika ada)
+*.sqlite
+*.sqlite3
+
+# Production build files (jika ada build folder)
+build/
+dist/
