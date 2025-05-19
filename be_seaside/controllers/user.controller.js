@@ -85,7 +85,7 @@ exports.updateUser = async (request, response) => {
 exports.deleteUser = async (request, response) => {
     let idUser = request.params.id
 
-    userModel.destroy(dataUser, { where: { id: idUser } })
+    userModel.destroy({ where: { id: idUser } })
         .then(result => {
             return response.json({
                 success: true,
