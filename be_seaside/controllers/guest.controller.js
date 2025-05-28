@@ -1,6 +1,4 @@
 const { where } = require("sequelize")
-const { resource, response } = require("../routes/guest.route")
-
 const guestModel = require(`../models/index`).Guest
 const Op = require(`sequelize`).Op
 
@@ -54,7 +52,7 @@ exports.findGuest = async (request, response) => {
             message: `Guest has been loaded`
         })
     } catch (error) {
-        return resource.status(500).json({
+        return response.status(500).json({
             success: false,
             message: error.message
         })

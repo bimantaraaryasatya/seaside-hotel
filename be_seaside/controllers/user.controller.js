@@ -50,7 +50,7 @@ exports.findUser = async (request, response) => {
             message: "User has been loaded"
         })
     } catch (error) {
-        return resource.status(500).json({
+        return response.status(500).json({
             success: false,
             message: error.message
         })

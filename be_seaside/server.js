@@ -17,6 +17,9 @@ app.use(`/user`, userRoute)
 const guestRoute = require(`./routes/guest.route`)
 app.use('/guest', guestRoute)
 
+const roomRoute = require(`./routes/room.route`)
+app.use('/room', roomRoute)
+
 app.listen(PORT, () => {
     console.log(`Server of Sea Side Hotel runs on port ${PORT}`);
 })
