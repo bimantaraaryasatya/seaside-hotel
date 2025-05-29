@@ -9,7 +9,7 @@ const register = async (request, response) => {
 
         const existingEmail = await guestModel.findOne({where: {email}})
         if(existingEmail){
-            return response.status(400).json({message: "Email already exist"})
+            return response.status(400).json({message: "Email already exists"})
         }
 
         const guest = await guestModel.create({full_name: name, email, password: hashedPassword, phone, address})
