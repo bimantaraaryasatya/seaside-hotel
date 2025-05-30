@@ -19,12 +19,24 @@ module.exports = (sequelize, DataTypes) => {
     room_number: DataTypes.STRING,
     type:{
       type: DataTypes.ENUM('standard', 'deluxe', 'suite', 'family'),
-      allowNull: false
+      allowNull: false, 
+      validate: {
+        isIn: {
+          args: [['standard', 'deluxe', 'suite', 'family']],
+          msg: "Type of room must one of 'standard', 'deluxe', 'suite', 'family'"
+        }
+      }
     },
     price: DataTypes.DECIMAL,
     status:{
       type: DataTypes.ENUM('available', 'occupied', 'maintenance'),
-      defaultValue: 'available'
+      defaultValue: 'available',
+      validate: {
+        isIn: {
+          args: [['available', 'occupied', 'maintenance']],
+          msg: "Status of room must be one of 'available', 'occupied', 'maintenance'"
+        }
+      }
     }
   }, {
     sequelize,
