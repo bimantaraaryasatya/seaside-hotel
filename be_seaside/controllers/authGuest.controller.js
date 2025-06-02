@@ -34,6 +34,7 @@ const login = async (request, response) => {
 
         const token = jwt.sign({id: guest.id, name: guest.full_name, email: guest.email}, process.env.JWT_SECRET, {expiresIn: "1h"})
         response.json({
+            status: true,
             data: guest,
             message: "Login successful",
             token: token

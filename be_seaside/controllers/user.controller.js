@@ -6,18 +6,18 @@ exports.getAllUser = async (request, response) => {
         let users = await userModel.findAll() // mendapatkan semua user dengan findAll()
         if(users.length === 0){
             return response.json({
-                success: false,
+                status: false,
                 message: `No data to load`
             })
         }
         return response.json({
-        success: true,
+        status: true,
         data: users,
         message: `All users have been loaded`
     })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -39,19 +39,19 @@ exports.findUser = async (request, response) => {
         
         if(users.length === 0){
             return response.json({
-                success: false,
+                status: false,
                 message: `No data to load`
             })
         }
 
         return response.json({
-            success: true,
+            status: true,
             data: users,
             message: "User has been loaded"
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -69,14 +69,14 @@ exports.updateUser = async (request, response) => {
     userModel.update(dataUser, { where: { id: idUser } })
         .then(result => {
             return response.json({
-                success: true,
+                status: true,
                 data: dataUser,
                 message: "Data user has been updated"
             })
         })
         .catch(error => {
             return response.json({
-                success: false,
+                status: false,
                 message: error.message
             })
         })
@@ -88,13 +88,13 @@ exports.deleteUser = async (request, response) => {
     userModel.destroy({ where: { id: idUser } })
         .then(result => {
             return response.json({
-                success: true,
+                status: true,
                 message: "Data user has been deleted"
             })
         })
         .catch(error => {
             return response.json({
-                success: false,
+                status: false,
                 message: error
             })
         })

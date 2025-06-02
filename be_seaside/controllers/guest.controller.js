@@ -41,19 +41,19 @@ exports.findGuest = async (request, response) => {
 
         if(guests.length === 0){
             return response.json({
-                success: false,
+                status: false,
                 message: `No data to load`
             })
         }
 
         return response.json({
-            success: true,
+            status: true,
             data: guests,
             message: `Guest has been loaded`
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -73,20 +73,20 @@ exports.updateGuest = async (request, response) => {
         guestModel.update(dataGuest, {where: {id: idGuest}})
             .then(result => {
                 return response.json({
-                    success: true,
+                    status: true,
                     data: dataGuest,
                     message: "Data guest has been updated"
                 })
             })
             .catch(error => {
                 return response.json({
-                    success: false,
+                    status: false,
                     message: error.message
                 })
             })
     } catch (error) {
         response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -98,20 +98,20 @@ exports.deleteGuest = async (request, response) => {
         const existingGuest = await guestModel.findOne({where: {id: idGuest}})
         if(!existingGuest){
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: "Guest not found"
             })
         }
         const deleteGuest = guestModel.destroy({where: {id: idGuest}})
         if (deleteGuest) {
             return response.json({
-                success: true,
+                status: true,
                 message: "Data guest has been deleted"
             })
         }
     } catch (error) {
         response.status(500).json({
-            success: false,
+            status: false,
             message: error
         })
     }

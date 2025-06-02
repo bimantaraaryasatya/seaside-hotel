@@ -6,18 +6,18 @@ exports.getAllPayments = async (request, response) => {
         const payments = await paymentModel.findAll({include: [{model: reservationModel, as: 'reservation'}]})
         if(payments.length === 0){
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: 'Payments not found'
             })
         }
         return response.status(200).json({
-            success: true,
+            status: true,
             message: 'Payments have been loaded',
             data: payments
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -33,7 +33,7 @@ exports.createPayment = async (request, response) => {
             status: 'pending'
         })
         return response.status(201).json({
-            success: true,
+            status: true,
             message: 'Payment has been recorded',
             data: payment
         })

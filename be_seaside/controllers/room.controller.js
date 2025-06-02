@@ -6,18 +6,18 @@ exports.getAllRooms = async (request, response) => {
         const rooms = await roomModel.findAll()
         if(rooms.length === 0){
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: `No data to load`
             })
         }
         return response.status(200).json({
-            success: true,
+            status: true,
             data: rooms,
             message: `All rooms have been loaded`
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -38,19 +38,19 @@ exports.findRoom = async (request, response) => {
 
         if(rooms.length === 0){
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: `No data to load`
             })
         }
 
         return response.status(200).json({
-            success: true,
+            status: true,
             data: rooms,
             message: "Room has been loaded"
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
@@ -65,13 +65,13 @@ exports.createRoom = async (request, response) => {
         }
         const newRoom = await roomModel.create({room_number, type, price, status})
         return response.status(200).json({
-            success: true,
+            status: true,
             data: newRoom,
             message: 'Room has been created'
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             error: message.error
         })
     }
@@ -85,7 +85,7 @@ exports.updateRoom = async (request, response) => {
         const room = await roomModel.findByPk(idRoom)
         if(!room){
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: 'Room not found'
             })
         }
@@ -97,13 +97,13 @@ exports.updateRoom = async (request, response) => {
 
         await room.update({room_number, type, price, status})
         return response.status(200).json({
-            success: true,
+            status: true,
             message: 'Room has been updated',
             data: room
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             error: error.message
         })
     }
@@ -116,19 +116,19 @@ exports.deleteRoom = async (request, response) => {
         const room = await roomModel.findByPk(idRoom)
         if (!room) {
             return response.status(404).json({
-                success: false,
+                status: false,
                 message: 'Room not found'
             })
         }
 
         await room.destroy()
         return response.status(200).json({
-            success: true,
+            status: true,
             message: 'Room has been deleted'
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }

@@ -19,5 +19,8 @@
     "md5": "^2.3.0",
     "mysql2": "^3.13.0",
     "sequelize": "^6.37.6"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6"
   }
 }

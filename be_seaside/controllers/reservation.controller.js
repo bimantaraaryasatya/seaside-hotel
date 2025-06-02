@@ -15,7 +15,7 @@ exports.createReservation = async (request, response) => {
 
         if(existingReservation){
             return response.status(400).json({
-                sucess: false,
+                status: false,
                 message: 'Room is already booked or occupied'
             })
         }
@@ -28,13 +28,13 @@ exports.createReservation = async (request, response) => {
         )
 
         return response.status(201).json({
-            success: true,
+            status: true,
             message: 'Reservation has been created',
             data: reservation
         });
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             error: error.message
         })
     }
@@ -50,18 +50,18 @@ exports.getAllReservation = async (request, response) => {
         })
         if(reservation.length === 0){
             return response.status(400).json({
-                success: false,
+                status: false,
                 message: 'Reservations not found'
             })
         }
         return response.status(200).json({
-            success: true,
+            status: true,
             message: 'Reservations have been loaded',
             data: reservation
         })
     } catch (error) {
         return response.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         })
     }
