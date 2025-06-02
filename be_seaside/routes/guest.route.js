@@ -2,10 +2,12 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const guestController = require(`../controllers/guest.controller`)
+const { authenticateToken, authorizeRoles } = require(`../middleware/auth.middleware`)
 
-app.get("/", guestController.getAllGuest)
-app.post("/find", guestController.findGuest)
-app.put("/:id", guestController.updateGuest)
-app.delete("/:id", guestController.deleteGuest)
+
+app.get("/",  authenticateToken, authorizeRoles('manager', 'admin'), guestController.getAllGuest)
+app.post("/find", authenticateToken, authorizeRoles('manager', 'admin'), guestController.findGuest)
+app.put("/:id",  authenticateToken, authorizeRoles('admin'), guestController.updateGuest)
+app.delete("/:id",  authenticateToken, authorizeRoles('admin'), guestController.deleteGuest)
 
 module.exports = app

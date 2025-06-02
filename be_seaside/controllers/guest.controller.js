@@ -95,7 +95,13 @@ exports.updateGuest = async (request, response) => {
 exports.deleteGuest = async (request, response) => {
     try {
         let idGuest = request.params.id
-    
+        const existingGuest = await guestModel.findOne({where: {id: idGuest}})
+        if(!existingGuest){
+            return response.status(404).json({
+                success: false,
+                message: "Guest not found"
+            })
+        }
         const deleteGuest = guestModel.destroy({where: {id: idGuest}})
         if (deleteGuest) {
             return response.json({
