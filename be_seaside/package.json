@@ -17,6 +17,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
+    "multer": "^2.0.0",
     "mysql2": "^3.13.0",
     "sequelize": "^6.37.6"
   },

@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Status of room must be one of 'available', 'occupied', 'maintenance'"
         }
       }
+    },
+    room_image: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,

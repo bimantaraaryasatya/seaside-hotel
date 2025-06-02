@@ -59,11 +59,12 @@ exports.findRoom = async (request, response) => {
 exports.createRoom = async (request, response) => {
     try {
         const {room_number, type, price, status} = request.body
+        const room_image = request.file.filename
         const existingRoom = await roomModel.findOne({where: {room_number}})
         if(existingRoom){
             return response.status(400).json({message: "Room already exists"})
         }
-        const newRoom = await roomModel.create({room_number, type, price, status})
+        const newRoom = await roomModel.create({room_number, type, price, status, room_image})
         return response.status(200).json({
             status: true,
             data: newRoom,
@@ -72,7 +73,7 @@ exports.createRoom = async (request, response) => {
     } catch (error) {
         return response.status(500).json({
             status: false,
-            error: message.error
+            error: error.message
         })
     }
 }

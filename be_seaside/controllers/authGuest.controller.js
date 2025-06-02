@@ -13,7 +13,7 @@ const register = async (request, response) => {
         }
 
         const guest = await guestModel.create({full_name: name, email, password: hashedPassword, phone, address})
-        response.status(201).json({message: "Guest registred!", guest})
+        response.status(201).json({status: true ,message: "Guest registred!", data: guest})
     } catch (error) {
         response.status(500).json({error: error.message})
     }
