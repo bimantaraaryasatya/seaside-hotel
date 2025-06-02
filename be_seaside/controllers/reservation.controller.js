@@ -21,11 +21,17 @@ exports.createReservation = async (request, response) => {
         }
 
         const reservation = await reservationModel.create({guest_id, room_id, check_in, check_out, status: 'booked'})
+        // Update status kamar
+        await roomModel.update(
+            { status: 'occupied' },
+            {where: {id: room_id}}
+        )
+
         return response.status(201).json({
             success: true,
             message: 'Reservation has been created',
             data: reservation
-        })
+        });
     } catch (error) {
         return response.status(500).json({
             success: false,
