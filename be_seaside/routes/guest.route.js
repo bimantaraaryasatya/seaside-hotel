@@ -5,8 +5,8 @@ const guestController = require(`../controllers/guest.controller`)
 const { authenticateToken, authorizeRoles } = require(`../middleware/auth.middleware`)
 
 
-app.get("/",  authenticateToken, authorizeRoles('manager', 'admin'), guestController.getAllGuest)
-app.post("/find", authenticateToken, authorizeRoles('manager', 'admin'), guestController.findGuest)
+app.get("/",  authenticateToken, authorizeRoles('manager', 'admin', 'receptionist'), guestController.getAllGuest)
+app.post("/find", authenticateToken, authorizeRoles('manager', 'admin', 'receptionist'), guestController.findGuest)
 app.put("/:id",  authenticateToken, authorizeRoles('admin'), guestController.updateGuest)
 app.delete("/:id",  authenticateToken, authorizeRoles('admin'), guestController.deleteGuest)
 

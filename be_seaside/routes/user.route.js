@@ -4,9 +4,9 @@ app.use(express.json())
 const userController = require(`../controllers/user.controller`)
 const { authenticateToken, authorizeRoles } = require(`../middleware/auth.middleware`)
 
-app.get("/", userController.getAllUser)
-app.post("/find", userController.findUser)
-app.put("/:id", userController.updateUser)
-app.delete("/:id", userController.deleteUser)
+app.get("/", authenticateToken, authorizeRoles('admin', 'manager'), userController.getAllUser)
+app.post("/find", authenticateToken, authorizeRoles('admin', 'manager'), userController.findUser)
+app.put("/:id", authenticateToken, authorizeRoles('admin'), userController.updateUser)
+app.delete("/:id", authenticateToken, authorizeRoles('admin'), userController.deleteUser)
 
 module.exports = app
