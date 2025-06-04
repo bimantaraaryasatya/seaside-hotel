@@ -3,25 +3,29 @@ const Op = require(`sequelize`).Op
 
 exports.getAllUser = async (request, response) => {
     try {
-        let users = await userModel.findAll() // mendapatkan semua user dengan findAll()
-        if(users.length === 0){
-            return response.json({
-                status: false,
-                message: `No data to load`
-            })
-        }
-        return response.json({
-        status: true,
-        data: users,
-        message: `All users have been loaded`
-    })
+        const { search } = request.query;
+        const { Op } = require('sequelize');
+
+        const users = await userModel.findAll({
+            where: {
+                name: {
+                    [Op.like]: `%${search ? search.toString() : ''}%`
+                }
+            }
+        });
+
+        return response.status(200).json({
+            status: true,
+            data: users,
+            message: 'Users have been retrieved'
+        });
     } catch (error) {
-        return response.status(500).json({
+        return response.status(400).json({
             status: false,
-            message: error.message
-        })
+            message: `There is an error. ${error.message}`
+        });
     }
-}
+};
 
 exports.findUser = async (request, response) => {
     let keyword = request.body.keyword
@@ -61,7 +65,8 @@ exports.findUser = async (request, response) => {
 exports.updateUser = async (request, response) => {
     let dataUser = {
         name: request.body.name,
-        email: request.body.email
+        email: request.body.email,
+        role: request.body.role
     }
 
     let idUser = request.params.id

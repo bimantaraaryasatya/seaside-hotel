@@ -4,26 +4,30 @@ const Op = require(`sequelize`).Op
 
 exports.getAllGuest = async (request, response) => {
     try {
-        let guests = await guestModel.findAll()
-        // Cek jumlah guest
-        if(guests.length === 0){
-            return response.json({
-                status: false,
-                message: `No data to load`
-            })
-        }
-        return response.json({
+        const { search } = request.query;
+        const { Op } = require('sequelize');
+
+        // Kalau search ada, filter berdasarkan full_name dengan LIKE
+        const guests = await guestModel.findAll({
+            where: {
+                full_name: {
+                    [Op.like]: `%${search ? search.toString() : ''}%`
+                }
+            }
+        });
+
+        return response.status(200).json({
             status: true,
             data: guests,
-            message: `All guests have been loaded`
-        })
+            message: 'Guests have been retrieved'
+        });
     } catch (error) {
-        return response.status(500).json({
+        return response.status(400).json({
             status: false,
-            message: error.message
-        })
+            message: `There is an error. ${error.message}`
+        });
     }
-}
+};
 
 exports.findGuest = async (request, response) => {
     let keyword = request.body.keyword

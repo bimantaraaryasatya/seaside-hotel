@@ -3,25 +3,35 @@ const Op = require(`sequelize`).Op
 
 exports.getAllRooms = async (request, response) => {
     try {
-        const rooms = await roomModel.findAll()
-        if(rooms.length === 0){
+        const { search } = request.query;
+
+        const rooms = await roomModel.findAll({
+            where: {
+                room_number: {
+                    [Op.like]: `%${search ? search.toString() : ''}%`
+                }
+            }
+        });
+
+        if (rooms.length === 0) {
             return response.status(404).json({
                 status: false,
                 message: `No data to load`
-            })
+            });
         }
+
         return response.status(200).json({
             status: true,
             data: rooms,
             message: `All rooms have been loaded`
-        })
+        });
     } catch (error) {
         return response.status(500).json({
             status: false,
             message: error.message
-        })
+        });
     }
-}
+};
 
 exports.findRoom = async (request, response) => {
     let keyword = request.body.keyword
@@ -62,7 +72,7 @@ exports.createRoom = async (request, response) => {
         const room_image = request.file.filename
         const existingRoom = await roomModel.findOne({where: {room_number}})
         if(existingRoom){
-            return response.status(400).json({message: "Room already exists"})
+            return response.status(404).json({status: false, message: "Room already exists"})
         }
         const newRoom = await roomModel.create({room_number, type, price, status, room_image})
         return response.status(200).json({
@@ -82,7 +92,7 @@ exports.updateRoom = async (request, response) => {
     try {
         const idRoom = request.params.id
         const { room_number, type, price, status } = request.body
-        
+        const room_image = request.file.filename
         const room = await roomModel.findByPk(idRoom)
         if(!room){
             return response.status(404).json({
@@ -91,12 +101,19 @@ exports.updateRoom = async (request, response) => {
             })
         }
 
-        const existingRoom = await roomModel.findOne({where: {room_number}})
+        const existingRoom = await roomModel.findOne({
+            where: {
+                room_number,
+                id: {
+                    [Op.ne]: idRoom // hanya cek room lain, bukan dirinya sendiri
+                }
+            }
+        })
         if(existingRoom){
             return response.status(400).json({message: "Room already exists"})
         }
 
-        await room.update({room_number, type, price, status})
+        await room.update({room_number, type, price, status, room_image})
         return response.status(200).json({
             status: true,
             message: 'Room has been updated',

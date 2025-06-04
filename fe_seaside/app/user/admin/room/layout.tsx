@@ -2,7 +2,7 @@ import ManagerTemplate from "@/components/adminTemplate";
 import MenuList from "../menuList";
 
 export const metadata = {
-   title: 'Dashboard Admin | Sea Side',
+   title: 'Room Control Admin | Sea Side',
    description: 'Sea Side Hotel'
 }
 
@@ -12,7 +12,7 @@ type PropsLayout = {
 
 const RootLayout = ({ children }: PropsLayout) => {
    return(
-      <ManagerTemplate title="Dashboard" id="dashboard" menuList={MenuList}>
+      <ManagerTemplate title="Room" id="room" menuList={MenuList}>
          {children}
       </ManagerTemplate>
    )

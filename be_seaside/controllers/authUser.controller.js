@@ -14,7 +14,7 @@ const register = async (req, res) => {
         }
 
         const user = await userModel.create({ name, email, password: hashedPassword, role });
-        res.status(201).json({ message: "User registered!", user });
+        res.status(201).json({ status: true, message: "User registered!", user });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -33,7 +33,7 @@ const login = async (req, res) => {
             return res.status(401).json({error: "Invalid credentials"})
         }
 
-        const token = jwt.sign({id: user.id, role: user.role}, process.env.JWT_SECRET, { expiresIn: "1h" })
+        const token = jwt.sign({id: user.id, name:user.name, role: user.role}, process.env.JWT_SECRET, { expiresIn: "24h" })
         res.json({
             status: true,
             data: user,
