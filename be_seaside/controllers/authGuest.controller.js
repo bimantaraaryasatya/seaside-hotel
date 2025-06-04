@@ -4,7 +4,7 @@ const jwt = require(`jsonwebtoken`)
 
 const register = async (request, response) => {
     try {
-        const { name, email, password, phone, address } = request.body
+        const { full_name, email, password, phone, address } = request.body
         const hashedPassword = await bcrypt.hash(password, 10)
 
         const existingEmail = await guestModel.findOne({where: {email}})
@@ -12,7 +12,7 @@ const register = async (request, response) => {
             return response.status(400).json({message: "Email already exists"})
         }
 
-        const guest = await guestModel.create({full_name: name, email, password: hashedPassword, phone, address})
+        const guest = await guestModel.create({full_name, email, password: hashedPassword, phone, address})
         response.status(201).json({status: true ,message: "Guest registred!", data: guest})
     } catch (error) {
         response.status(500).json({error: error.message})

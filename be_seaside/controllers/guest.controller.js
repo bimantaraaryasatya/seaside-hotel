@@ -62,8 +62,8 @@ exports.findGuest = async (request, response) => {
 exports.updateGuest = async (request, response) => {
     try {
         let dataGuest = {
-            full_name: request.body.name,
-            email: request.body.name,
+            full_name: request.body.full_name,
+            email: request.body.email,
             phone: request.body.phone,
             address: request.body.address
         }
@@ -72,6 +72,14 @@ exports.updateGuest = async (request, response) => {
     
         guestModel.update(dataGuest, {where: {id: idGuest}})
             .then(result => {
+                console.log("Update result:", result); // Tambah ini
+
+                if (result[0] === 0) {
+                    return response.json({
+                        status: false,
+                        message: "No data was updated. ID may not exist."
+                    })
+                }
                 return response.json({
                     status: true,
                     data: dataGuest,
